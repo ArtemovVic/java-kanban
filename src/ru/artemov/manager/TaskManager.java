@@ -99,7 +99,7 @@ public class TaskManager {
 
     public void deleteAllSubTask() {
         for (SubTask subTask : subTaskById.values()) {
-            subTask.getEpic().removeSubTask(subTask);
+            subTask.getEpic().removeSubTask(subTask); // При вызове .removeSubTask класс Epic вызывается метод checkStatus(Epic epic), который обновляет статусы
         }
         subTaskById.clear();
     }
@@ -111,7 +111,7 @@ public class TaskManager {
     public void createSubtask(SubTask subTask) {
         subTask.setId(id);
         subTaskById.put(subTask.getId(), subTask);
-        subTask.getEpic().addSubTask(subTask);
+        subTask.getEpic().addSubTask(subTask); // При вызове .addSubTask класс Epic вызывается метод checkStatus(Epic epic), который обновляет статусы
         id++;
     }
 
@@ -119,12 +119,12 @@ public class TaskManager {
         deleteSubtaskById(id);
         subTask.setId(id);
         subTaskById.put(subTask.getId(), subTask);
-        subTask.getEpic().addSubTask(subTask);
+        subTask.getEpic().addSubTask(subTask); // При вызове .addSubTask класс Epic вызывается метод checkStatus(Epic epic), который обновляет статусы
 
     }
 
     public void deleteSubtaskById(int id) {
-        subTaskById.get(id).getEpic().removeSubTask(subTaskById.get(id));
+        subTaskById.get(id).getEpic().removeSubTask(subTaskById.get(id)); // При вызове .removeSubTask класс Epic вызывается метод checkStatus(Epic epic), который обновляет статусы
         subTaskById.remove(id);
 
 
