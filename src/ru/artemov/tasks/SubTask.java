@@ -7,6 +7,10 @@ public class SubTask extends Task{
         super(title, description, status, TypeOfTasks.SUBTASK);
         this.epic = epic;
     }
+    public SubTask(SubTask subTask) {
+        super(subTask);
+        this.epic = subTask.getEpic();
+    }
 
     public Epic getEpic() {
         return epic;
@@ -21,7 +25,6 @@ public class SubTask extends Task{
         return "SubTask{" +
                 "epic=" + epic.title +
                 ", title='" + title + '\'' +
-
                 ", id=" + id +
                 ", status=" + status +
                 '}';

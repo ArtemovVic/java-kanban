@@ -24,6 +24,15 @@ public class Task {
         this.type = type;
     }
 
+    public Task(Task task) {
+        this.title = task.getTitle();
+        this.description = task.getDescription();
+        this.id = task.getId();
+        this.status = task.getStatus();
+        this.type = task.getType();
+    }
+
+
     public String getTitle() {
         return title;
     }
@@ -64,7 +73,6 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "title='" + title + '\'' +
-
                 ", id=" + id +
                 ", status=" + status +
                 '}';
@@ -75,7 +83,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id && Objects.equals(title, task.title) && Objects.equals(description, task.description) && status == task.status && type == task.type;
+        return id == task.id;
     }
 
     @Override
