@@ -20,7 +20,7 @@ public class InMemoryHistoryManager implements HistoryManager{
             history.add(task);
         }
         else {
-            history.removeFirst();
+            history.remove(0);
             history.add(task);
         }
     }
