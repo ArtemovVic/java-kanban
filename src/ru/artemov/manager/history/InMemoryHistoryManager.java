@@ -12,7 +12,7 @@ public class InMemoryHistoryManager implements HistoryManager{
 
     public InMemoryHistoryManager() {
         this.history = new LinkedList<>();
-    }
+    } // history имеет тип интерфейса List, но в конструкторе присваивается конкретная реализация
 
     @Override
     public void addTaskIdInHistory(Task task) {
@@ -20,7 +20,7 @@ public class InMemoryHistoryManager implements HistoryManager{
             history.add(task);
         }
         else {
-            history.remove(0);
+            history.removeFirst();
             history.add(task);
         }
     }
