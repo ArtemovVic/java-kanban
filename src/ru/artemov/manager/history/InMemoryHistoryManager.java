@@ -12,25 +12,9 @@ public class InMemoryHistoryManager implements HistoryManager{
     private final int SIZE = 10;
 
     public InMemoryHistoryManager() {
-        this.history = new LinkedList<>();// history имеет тип интерфейса List, но в конструкторе присваивается конкретная реализация
+        this.history = new LinkedList<>();
     }
-    // Метод интерфейса List
-    /*
-    Removes and returns the first element of this collection (optional operation).
-Throws:NoSuchElementException – if this collection is empty
-UnsupportedOperationException – if this collection implementation does not support this operation
-Implementation Requirements:
-If this List is not empty, the implementation in this interface returns the result of calling remove(0). Otherwise, it throws NoSuchElementException.
-Since:21
 
-    default E removeFirst() {
-        if (this.isEmpty()) {
-            throw new NoSuchElementException();
-        } else {
-            return this.remove(0);
-        }
-    }
-    */
 
     @Override
     public void addTaskIdInHistory(Task task) {
@@ -38,7 +22,7 @@ Since:21
             history.add(task);
         }
         else {
-            history.removeFirst();
+            history.remove(0);
             history.add(task);
         }
     }
