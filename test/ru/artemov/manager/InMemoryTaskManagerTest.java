@@ -2,7 +2,9 @@ package ru.artemov.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.artemov.tasks.Epic;
 import ru.artemov.tasks.Status;
+import ru.artemov.tasks.SubTask;
 import ru.artemov.tasks.Task;
 
 import java.util.List;
@@ -78,6 +80,62 @@ class InMemoryTaskManagerTest {
 
         assertNotNull(history, "История не найдена.");
         assertEquals(oldTask, history.get(0), "Задачи не совпадают.");
+        assertEquals(1, history.size(), "Размер истории не совпадает.");
+
+
+    }
+
+    @Test
+    void deleteDuplicatesFromHistory() {
+        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
+        final int taskId = taskManager.createTask(task);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+
+        final List<Task> history = taskManager.getHistory();
+
+        assertNotNull(history, "История не найдена.");
+        assertEquals(1, history.size(), "Размер истории не совпадает.");
+
+
+    }
+
+    @Test
+    void deleteTaskFromHistory() {
+        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
+        final int taskId = taskManager.createTask(task);
+        taskManager.getTaskById(taskId);
+        taskManager.deleteTaskById(1);
+        final List<Task> history = taskManager.getHistory();
+
+        assertNotNull(history, "История не найдена.");
+        assertEquals(0, history.size(), "Размер истории не совпадает.");
+
+
+    }
+
+    @Test
+    void deleteSubTaskFromHistoryWhenDeleteEpic() {
+        Epic epic1 = new Epic("Epic1", "descrEpic1");
+        SubTask subTask11 = new SubTask("SubTask1", "descSub1", Status.NEW, epic1);
+        SubTask subTask12 = new SubTask("SubTask2", "descSub2", Status.NEW, epic1);
+        SubTask subTask13 = new SubTask("SubTask3", "descSub3", Status.NEW, epic1);
+        taskManager.createEpic(epic1);
+        taskManager.createSubtask(subTask11);
+        taskManager.createSubtask(subTask12);
+        taskManager.createSubtask(subTask13);
+
+        taskManager.getSubTaskById(2);
+        taskManager.getSubTaskById(3);
+        taskManager.getSubTaskById(4);
+        taskManager.getEpicById(1);
+
+        taskManager.deleteEpicById(1);
+        final List<Task> history = taskManager.getHistory();
+
+        assertNotNull(history, "История не найдена.");
+        assertEquals(0, history.size(), "Размер истории не совпадает.");
 
 
     }
