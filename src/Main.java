@@ -16,7 +16,6 @@ public class Main {
         SubTask subTask13 = new SubTask("SubTask3", "descSub3", Status.NEW, epic1);
         Epic epic2 = new Epic("Epic2", "descrEpic2");
 
-
         taskManager.createTask(task1);
         taskManager.createTask(task2);
         taskManager.createEpic(epic1);
@@ -24,7 +23,6 @@ public class Main {
         taskManager.createSubtask(subTask12);
         taskManager.createSubtask(subTask13);
         taskManager.createEpic(epic2);
-
 
         System.out.println(taskManager.getAllTask());
         System.out.println(taskManager.getAllEpic());
@@ -40,7 +38,6 @@ public class Main {
         taskManager.deleteTaskById(2);
         System.out.println(taskManager.getHistory());
 
-
         taskManager.getSubTaskById(4);
         taskManager.getEpicById(3);
         System.out.println(taskManager.getHistory());
@@ -48,14 +45,6 @@ public class Main {
         taskManager.deleteEpicById(3);
 
         System.out.println(taskManager.getHistory());
-
-
-
-
-
-
-
-
 
 
     }

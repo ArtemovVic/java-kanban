@@ -16,8 +16,8 @@ class InMemoryTaskManagerTest {
     private static TaskManager taskManager;
 
     @BeforeEach
-    public void beforeEach(){
-         taskManager = Managers.getDefault();
+    public void beforeEach() {
+        taskManager = Managers.getDefault();
     }
 
     @Test
@@ -36,6 +36,7 @@ class InMemoryTaskManagerTest {
         assertEquals(1, tasks.size(), "Неверное количество задач.");
         assertEquals(task, tasks.get(0), "Задачи не совпадают.");
     }
+
     @Test
     void updateTask() {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
@@ -50,6 +51,7 @@ class InMemoryTaskManagerTest {
         assertEquals(task, updatedTask, "Задачи не совпадают.");
 
     }
+
     @Test
     void createTask() {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);

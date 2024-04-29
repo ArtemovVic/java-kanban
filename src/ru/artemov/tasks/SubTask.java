@@ -1,12 +1,13 @@
 package ru.artemov.tasks;
 
-public class SubTask extends Task{
+public class SubTask extends Task {
     private Epic epic;
 
     public SubTask(String title, String description, Status status, Epic epic) {
         super(title, description, status, TypeOfTasks.SUBTASK);
         this.epic = epic;
     }
+
     public SubTask(SubTask subTask) {
         super(subTask);
         this.epic = subTask.getEpic();
