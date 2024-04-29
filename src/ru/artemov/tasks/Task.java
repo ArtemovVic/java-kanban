@@ -10,14 +10,14 @@ public class Task {
     protected final TypeOfTasks type;
 
 
-    public Task(String title, String description, Status status ) {
+    public Task(String title, String description, Status status) {
         this.title = title;
         this.description = description;
         this.status = status;
         this.type = TypeOfTasks.TASK;
     }
 
-    public Task(String title, String description, Status status, TypeOfTasks type ) {
+    public Task(String title, String description, Status status, TypeOfTasks type) {
         this.title = title;
         this.description = description;
         this.status = status;
