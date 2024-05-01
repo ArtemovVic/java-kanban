@@ -9,7 +9,7 @@ import java.util.List;
 public interface TaskManager {
 
     List<Task> getHistory();
-    void printHistory();
+
     //--------------------------- Методы для Task---------------------
     List<Task> getAllTask();
 

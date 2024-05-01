@@ -4,6 +4,7 @@ import ru.artemov.manager.history.HistoryManager;
 import ru.artemov.tasks.Epic;
 import ru.artemov.tasks.SubTask;
 import ru.artemov.tasks.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,10 +34,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getHistory() {
         return historyManager.getHistory();
     }
-    @Override
-    public void printHistory(){
-        historyManager.print();
-    }
+
 
     @Override
     public List<Task> getAllTask() {
@@ -70,6 +68,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTaskById(int id) {
+        historyManager.remove(id);
         tasksById.remove(id);
     }
 
@@ -117,7 +116,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpicById(int id) {
+        historyManager.remove(id);
         for (SubTask subTask : List.copyOf(epicById.get(id).getSubTasksList())) {
+            historyManager.remove(subTask.getId());
             deleteSubtaskById(subTask.getId());
         }
         epicById.remove(id);
@@ -169,6 +170,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteSubtaskById(int id) {
+        historyManager.remove(id);
         subTaskById.get(id).getEpic().removeSubTask(subTaskById.get(id));
         subTaskById.remove(id);
 

@@ -2,7 +2,9 @@ package ru.artemov.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.artemov.tasks.Epic;
 import ru.artemov.tasks.Status;
+import ru.artemov.tasks.SubTask;
 import ru.artemov.tasks.Task;
 
 import java.util.List;
@@ -14,8 +16,8 @@ class InMemoryTaskManagerTest {
     private static TaskManager taskManager;
 
     @BeforeEach
-    public void beforeEach(){
-         taskManager = Managers.getDefault();
+    public void beforeEach() {
+        taskManager = Managers.getDefault();
     }
 
     @Test
@@ -34,6 +36,7 @@ class InMemoryTaskManagerTest {
         assertEquals(1, tasks.size(), "Неверное количество задач.");
         assertEquals(task, tasks.get(0), "Задачи не совпадают.");
     }
+
     @Test
     void updateTask() {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
@@ -48,6 +51,7 @@ class InMemoryTaskManagerTest {
         assertEquals(task, updatedTask, "Задачи не совпадают.");
 
     }
+
     @Test
     void createTask() {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
@@ -78,6 +82,62 @@ class InMemoryTaskManagerTest {
 
         assertNotNull(history, "История не найдена.");
         assertEquals(oldTask, history.get(0), "Задачи не совпадают.");
+        assertEquals(1, history.size(), "Размер истории не совпадает.");
+
+
+    }
+
+    @Test
+    void deleteDuplicatesFromHistory() {
+        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
+        final int taskId = taskManager.createTask(task);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+
+        final List<Task> history = taskManager.getHistory();
+
+        assertNotNull(history, "История не найдена.");
+        assertEquals(1, history.size(), "Размер истории не совпадает.");
+
+
+    }
+
+    @Test
+    void deleteTaskFromHistory() {
+        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
+        final int taskId = taskManager.createTask(task);
+        taskManager.getTaskById(taskId);
+        taskManager.deleteTaskById(taskId);
+        final List<Task> history = taskManager.getHistory();
+
+        assertNotNull(history, "История не найдена.");
+        assertEquals(0, history.size(), "Размер истории не совпадает.");
+
+
+    }
+
+    @Test
+    void deleteSubTaskFromHistoryWhenDeleteEpic() {
+        Epic epic1 = new Epic("Epic1", "descrEpic1");
+        SubTask subTask11 = new SubTask("SubTask1", "descSub1", Status.NEW, epic1);
+        SubTask subTask12 = new SubTask("SubTask2", "descSub2", Status.NEW, epic1);
+        SubTask subTask13 = new SubTask("SubTask3", "descSub3", Status.NEW, epic1);
+        final int epicId = taskManager.createEpic(epic1);
+        final int subTaskId1 = taskManager.createSubtask(subTask11);
+        final int subTaskId2 = taskManager.createSubtask(subTask12);
+        final int subTaskId3 = taskManager.createSubtask(subTask13);
+
+        taskManager.getSubTaskById(subTaskId1);
+        taskManager.getSubTaskById(subTaskId2);
+        taskManager.getSubTaskById(subTaskId3);
+        taskManager.getEpicById(epicId);
+
+        taskManager.deleteEpicById(epicId);
+        final List<Task> history = taskManager.getHistory();
+
+        assertNotNull(history, "История не найдена.");
+        assertEquals(0, history.size(), "Размер истории не совпадает.");
 
 
     }
