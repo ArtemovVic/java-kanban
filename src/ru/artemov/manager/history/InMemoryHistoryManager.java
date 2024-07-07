@@ -42,7 +42,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void removeAll() {
-        for (Node<Task> node:nodeById.values()){
+        for (Node<Task> node : nodeById.values()) {
             history.removeNode(node);
         }
         nodeById.clear();
