@@ -21,7 +21,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void addNewTask() {
+    void addNewTask() throws ManagerSaveException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
         final int taskId = taskManager.createTask(task);
 
@@ -38,7 +38,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void updateTask() {
+    void updateTask() throws ManagerSaveException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
         Task updateTask = new Task("Test updateTask", "Test updateTask description", Status.IN_PROGRESS);
 
@@ -53,7 +53,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void createTask() {
+    void createTask() throws ManagerSaveException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
 
         final int taskId = taskManager.createTask(task);
@@ -70,7 +70,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void addTaskInHistory() {
+    void addTaskInHistory() throws ManagerSaveException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
         final int taskId = taskManager.createTask(task);
         Task oldTask = taskManager.getTaskById(taskId);
@@ -88,7 +88,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void deleteDuplicatesFromHistory() {
+    void deleteDuplicatesFromHistory() throws ManagerSaveException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
         final int taskId = taskManager.createTask(task);
         taskManager.getTaskById(taskId);
@@ -104,7 +104,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void deleteTaskFromHistory() {
+    void deleteTaskFromHistory() throws ManagerSaveException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
         final int taskId = taskManager.createTask(task);
         taskManager.getTaskById(taskId);
@@ -118,7 +118,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void deleteSubTaskFromHistoryWhenDeleteEpic() {
+    void deleteSubTaskFromHistoryWhenDeleteEpic() throws ManagerSaveException {
         Epic epic1 = new Epic("Epic1", "descrEpic1");
         SubTask subTask11 = new SubTask("SubTask1", "descSub1", Status.NEW, epic1);
         SubTask subTask12 = new SubTask("SubTask2", "descSub2", Status.NEW, epic1);
