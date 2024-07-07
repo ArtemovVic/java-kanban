@@ -15,15 +15,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private static final FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(Managers.getDefaultHistory());
 
-
     public static void main(String[] args) throws ManagerSaveException {
 
-
-        /*Task task1 = new Task("task1", "Description101", Status.NEW);
+        Task task1 = new Task("task1", "Description101", Status.NEW);
         Task task2 = new Task("task2", "Description102", Status.NEW);
-        Task task3 = new Task("task2", "Description102", Status.NEW);
-        Task task4 = new Task("task2", "Description102", Status.NEW);
-        Task task5 = new Task("task2", "Description102", Status.NEW);
         Epic epic = new Epic("epic1", "Description111");
         SubTask subTask1 = new SubTask("subTask1", "Description", Status.NEW, epic);
         SubTask subTask2 = new SubTask("subTask2", "Description", Status.NEW, epic);
@@ -48,7 +43,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         System.out.println(fileBackedTaskManager.getAllEpic());
         System.out.println(fileBackedTaskManager.getAllSubTask());
 
-
         System.out.println("____________");
 
         fileBackedTaskManager.getTaskById(1);
@@ -70,18 +64,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         System.out.println(fileBackedTaskManager.getAllTask());
         System.out.println(fileBackedTaskManager.getAllEpic());
         System.out.println(fileBackedTaskManager.getAllSubTask());
-        System.out.println(fileBackedTaskManager.getHistory());*/
+        System.out.println(fileBackedTaskManager.getHistory());
 
-
-        /*loadFromFile();
+        loadFromFile();
         System.out.println("Load");
 
         System.out.println(fileBackedTaskManager.getAllTask());
         System.out.println(fileBackedTaskManager.getAllEpic());
-        System.out.println(fileBackedTaskManager.getAllSubTask());*/
-
-        fileBackedTaskManager.save();
-
+        System.out.println(fileBackedTaskManager.getAllSubTask());
 
     }
 
@@ -158,8 +148,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     break;
                 case "SUBTASK":
                     SubTask sbFromFile = new SubTask(params[2], params[4],
-                            Status.valueOf(params[3]), fileBackedTaskManager.epicById.
-                            get(Integer.parseInt(params[5])), parsedId);
+                            Status.valueOf(params[3]), fileBackedTaskManager.epicById
+                                    .get(Integer.parseInt(params[5])), parsedId);
                     sbFromFile.getEpic().addSubTask(sbFromFile);
                     fileBackedTaskManager.subTaskById.put(parsedId, sbFromFile);
 
