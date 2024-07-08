@@ -14,6 +14,7 @@ import java.util.List;
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private static final FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(Managers.getDefaultHistory());
+    private final File TaskManagerFile;
 
     public static void main(String[] args) throws ManagerSaveException {
 
@@ -77,11 +78,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public FileBackedTaskManager(HistoryManager historyManager) {
         super(historyManager);
-
+        this.TaskManagerFile = new File("TaskManagerFile.txt");
     }
 
-    public void save() throws ManagerSaveException {
-        try (Writer writer = new FileWriter("123.txt", false);) {
+    void save() throws ManagerSaveException {
+        try (Writer writer = new FileWriter(TaskManagerFile, false);) {
             writer.append("id,type,name,status,description,epic" + "\n");
 
             for (Task task : tasksById.values()) {
@@ -112,7 +113,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         fileBackedTaskManager.epicById.clear();
         fileBackedTaskManager.historyManager.removeAll();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("123.txt", StandardCharsets.UTF_8));) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileBackedTaskManager.TaskManagerFile, StandardCharsets.UTF_8));) {
 
             List<String> list = new ArrayList<>();
             while (br.ready()) {
@@ -149,7 +150,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 case "SUBTASK":
                     SubTask sbFromFile = new SubTask(params[2], params[4],
                             Status.valueOf(params[3]), fileBackedTaskManager.epicById
-                                    .get(Integer.parseInt(params[5])), parsedId);
+                            .get(Integer.parseInt(params[5])), parsedId);
                     sbFromFile.getEpic().addSubTask(sbFromFile);
                     fileBackedTaskManager.subTaskById.put(parsedId, sbFromFile);
 
