@@ -14,7 +14,7 @@ import java.util.List;
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private static final FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(Managers.getDefaultHistory());
-    private final File TaskManagerFile;
+    private final File taskManagerFile;
 
     public static void main(String[] args) throws ManagerSaveException {
 
@@ -78,11 +78,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public FileBackedTaskManager(HistoryManager historyManager) {
         super(historyManager);
-        this.TaskManagerFile = new File("TaskManagerFile.txt");
+        this.taskManagerFile = new File("TaskManagerFile.txt");
     }
 
     void save() throws ManagerSaveException {
-        try (Writer writer = new FileWriter(TaskManagerFile, false);) {
+        try (Writer writer = new FileWriter(taskManagerFile, false);) {
             writer.append("id,type,name,status,description,epic" + "\n");
 
             for (Task task : tasksById.values()) {
@@ -113,7 +113,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         fileBackedTaskManager.epicById.clear();
         fileBackedTaskManager.historyManager.removeAll();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(fileBackedTaskManager.TaskManagerFile, StandardCharsets.UTF_8));) {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileBackedTaskManager.taskManagerFile, StandardCharsets.UTF_8));) {
 
             List<String> list = new ArrayList<>();
             while (br.ready()) {
