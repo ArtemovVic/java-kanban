@@ -13,41 +13,41 @@ public interface TaskManager {
     //--------------------------- Методы для Task---------------------
     List<Task> getAllTask();
 
-    void deleteAllTask();
+    void deleteAllTask() throws ManagerSaveException;
 
-    Task getTaskById(int id);
+    Task getTaskById(int id) throws ManagerSaveException;
 
-    int createTask(Task task);
+    int createTask(Task task) throws ManagerSaveException;
 
-    void updateTaskById(int id, Task task);
+    void updateTaskById(int id, Task task) throws ManagerSaveException;
 
-    void deleteTaskById(int id);
+    void deleteTaskById(int id) throws ManagerSaveException;
 
     //--------------------------- Методы для Epic---------------------
     List<Epic> getAllEpic();
 
-    void deleteAllEpic();
+    void deleteAllEpic() throws ManagerSaveException;
 
-    Epic getEpicById(int id);
+    Epic getEpicById(int id) throws ManagerSaveException;
 
-    int createEpic(Epic epic);
+    int createEpic(Epic epic) throws ManagerSaveException;
 
-    void updateEpicById(int id, Epic epic);
+    void updateEpicById(int id, Epic epic) throws ManagerSaveException;
 
-    void deleteEpicById(int id);
+    void deleteEpicById(int id) throws ManagerSaveException;
 
     List<SubTask> getAllSubTaskOfEpic(int id);
 
     //--------------------------- Методы для SubTask---------------------
     List<SubTask> getAllSubTask();
 
-    void deleteAllSubTask();
+    void deleteAllSubTask() throws ManagerSaveException;
 
-    SubTask getSubTaskById(int id);
+    SubTask getSubTaskById(int id) throws ManagerSaveException;
 
-    int createSubtask(SubTask subTask);
+    int createSubtask(SubTask subTask) throws ManagerSaveException;
 
-    void updateSubtask(int id, SubTask subTask);
+    void updateSubtask(int id, SubTask subTask) throws ManagerSaveException;
 
-    void deleteSubtaskById(int id);
+    void deleteSubtaskById(int id) throws ManagerSaveException;
 }

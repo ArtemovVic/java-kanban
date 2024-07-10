@@ -1,3 +1,4 @@
+import ru.artemov.manager.ManagerSaveException;
 import ru.artemov.manager.Managers;
 import ru.artemov.manager.TaskManager;
 import ru.artemov.tasks.*;
@@ -5,7 +6,7 @@ import ru.artemov.tasks.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ManagerSaveException {
         TaskManager taskManager = Managers.getDefault();
 
         Task task1 = new Task("task1", "desc1", Status.NEW);

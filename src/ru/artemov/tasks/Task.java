@@ -17,6 +17,14 @@ public class Task {
         this.type = TypeOfTasks.TASK;
     }
 
+    public Task(String title, String description, Status status, int id) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.type = TypeOfTasks.TASK;
+        this.id = id;
+    }
+
     public Task(String title, String description, Status status, TypeOfTasks type) {
         this.title = title;
         this.description = description;
