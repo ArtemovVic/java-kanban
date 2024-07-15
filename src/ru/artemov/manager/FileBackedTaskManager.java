@@ -67,7 +67,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         System.out.println(fileBackedTaskManager.getAllSubTask());
         System.out.println(fileBackedTaskManager.getHistory());
 
-        loadFromFile();
+        fileBackedTaskManager.loadFromFile();
         System.out.println("Load");
 
         System.out.println(fileBackedTaskManager.getAllTask());
@@ -103,11 +103,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public static void loadFromFile() throws ManagerSaveException {
+    public void loadFromFile() throws ManagerSaveException {
         load();
     }
 
-    public static void load() throws ManagerSaveException {
+    public void load() throws ManagerSaveException {
         fileBackedTaskManager.tasksById.clear();
         fileBackedTaskManager.subTaskById.clear();
         fileBackedTaskManager.epicById.clear();
