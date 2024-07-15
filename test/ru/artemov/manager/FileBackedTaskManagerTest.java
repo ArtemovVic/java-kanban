@@ -41,7 +41,7 @@ class FileBackedTaskManagerTest {
 
 
         try {
-            FileBackedTaskManager.loadFromFile();
+            manager.loadFromFile();
         } catch (ManagerSaveException e) {
             fail(e.getMessage());
         }
@@ -63,7 +63,7 @@ class FileBackedTaskManagerTest {
         }
 
         try {
-            FileBackedTaskManager.loadFromFile();
+            manager.loadFromFile();
         } catch (ManagerSaveException e) {
             fail(e.getMessage());
         }
