@@ -1,11 +1,19 @@
 package ru.artemov.tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Epic extends Task {
 
     private List<SubTask> subTasksList = new ArrayList<>();
+
+    private LocalDateTime endEpicTime;
+
 
     public Epic(String title, String description) {
         super(title, description, Status.NEW, TypeOfTasks.EPIC);
@@ -21,6 +29,7 @@ public class Epic extends Task {
     public Epic(Epic epic) {
         super(epic);
         this.subTasksList = epic.getSubTasksList();
+        this.endEpicTime = epic.getEndEpicTime();
 
     }
 
@@ -31,6 +40,8 @@ public class Epic extends Task {
                 ", title='" + title + '\'' +
                 ", id=" + id +
                 ", status=" + status +
+                ", startTime=" + startTime +
+                ", duration=" + duration +
                 '}';
     }
 
@@ -58,16 +69,47 @@ public class Epic extends Task {
     public void addSubTask(SubTask subTask) {
         subTasksList.add(subTask);
         checkStatus(subTask.getEpic());
+        this.startTime = setStartEpicTime(subTask.getEpic());
+        this.duration = setDurationEpic(subTask.getEpic());
+        this.endEpicTime = setEndEpicTime(subTask.getEpic());
     }
 
     public void removeSubTask(SubTask subTask) {
         Epic epic = subTask.getEpic();
         subTasksList.remove(subTask);
         checkStatus(epic);
+        this.startTime = setStartEpicTime(subTask.getEpic());
     }
 
     public List<SubTask> getSubTasksList() {
         return List.copyOf(subTasksList);
     }
 
+    public LocalDateTime setEndEpicTime(Epic epic) {
+        return epic.subTasksList.stream()
+                .filter(Objects::nonNull)
+                .max(Comparator.comparing(Task::getStartTime))
+                .map(Task::getEndTime)
+                .orElse(null);
+    }
+
+
+    public LocalDateTime setStartEpicTime(Epic epic) {
+        return epic.subTasksList.stream()
+                .filter(Objects::nonNull)
+                .min(Comparator.comparing(Task::getStartTime))
+                .map(Task::getStartTime)
+                .orElse(null);
+    }
+
+    public Duration setDurationEpic(Epic epic) {
+        return epic.subTasksList.stream()
+                .filter(Objects::nonNull)
+                .map(Task::getDuration)
+                .reduce(Duration.ZERO, Duration::plus);
+    }
+
+    public LocalDateTime getEndEpicTime() {
+        return endEpicTime;
+    }
 }
