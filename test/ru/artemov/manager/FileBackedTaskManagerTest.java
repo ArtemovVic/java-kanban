@@ -1,6 +1,5 @@
 package ru.artemov.manager;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.artemov.tasks.Epic;
@@ -8,31 +7,29 @@ import ru.artemov.tasks.Status;
 import ru.artemov.tasks.SubTask;
 import ru.artemov.tasks.Task;
 
-import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTaskManagerTest {
-
-    private FileBackedTaskManager manager;
-
+class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     @BeforeEach
     public void beforeEach() {
-        manager = new FileBackedTaskManager(Managers.getDefaultHistory());
+        this.taskManager = Managers.getFileBackedManager();
     }
-
 
     @Test
     void saveAndLoadTest() {
-        Task task1 = new Task("task1", "Description1", Status.NEW);
+        Task task1 = new Task("task1", "Description1", Status.NEW, LocalDateTime.of(2023, 1, 1, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
         Epic epic1 = new Epic("epic1", "EpicDescription1");
-        SubTask subTask1 = new SubTask("subTask1", "SubTaskDescription1", Status.IN_PROGRESS, epic1);
+        SubTask subTask1 = new SubTask("subTask1", "SubTaskDescription1", Status.IN_PROGRESS, epic1, LocalDateTime.of(2023, 1, 2, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
 
         try {
-            manager.createTask(task1);
-            manager.createEpic(epic1);
-            manager.createSubtask(subTask1);
+            taskManager.createTask(task1);
+            taskManager.createEpic(epic1);
+            taskManager.createSubtask(subTask1);
 
 
         } catch (ManagerSaveException e) {
@@ -41,14 +38,14 @@ class FileBackedTaskManagerTest {
 
 
         try {
-            manager.loadFromFile();
+            taskManager.loadFromFile();
         } catch (ManagerSaveException e) {
             fail(e.getMessage());
         }
 
-        assertEquals(1, manager.getAllTask().size());
-        assertEquals(1, manager.getAllEpic().size());
-        assertEquals(1, manager.getAllSubTask().size());
+        assertEquals(1, taskManager.getAllTask().size());
+        assertEquals(1, taskManager.getAllEpic().size());
+        assertEquals(1, taskManager.getAllSubTask().size());
     }
 
     @Test
@@ -56,21 +53,23 @@ class FileBackedTaskManagerTest {
 
 
         try {
-            manager.save();
+            taskManager.save();
 
         } catch (ManagerSaveException e) {
             fail(e.getMessage());
         }
 
         try {
-            manager.loadFromFile();
+            taskManager.loadFromFile();
         } catch (ManagerSaveException e) {
             fail(e.getMessage());
         }
 
-        // Assert that data was loaded correctly
-        assertEquals(0, manager.getAllTask().size());
-        assertEquals(0, manager.getAllEpic().size());
-        assertEquals(0, manager.getAllSubTask().size());
+
+        assertEquals(0, taskManager.getAllTask().size());
+        assertEquals(0, taskManager.getAllEpic().size());
+        assertEquals(0, taskManager.getAllSubTask().size());
     }
+
+
 }

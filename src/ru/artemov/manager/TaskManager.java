@@ -5,6 +5,7 @@ import ru.artemov.tasks.SubTask;
 import ru.artemov.tasks.Task;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
 
@@ -50,4 +51,6 @@ public interface TaskManager {
     void updateSubtask(int id, SubTask subTask) throws ManagerSaveException;
 
     void deleteSubtaskById(int id) throws ManagerSaveException;
+
+    Set<Task> getPrioritizedTasks() throws ManagerSaveException;
 }

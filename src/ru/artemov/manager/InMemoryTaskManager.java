@@ -5,9 +5,7 @@ import ru.artemov.tasks.Epic;
 import ru.artemov.tasks.SubTask;
 import ru.artemov.tasks.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 public class InMemoryTaskManager implements TaskManager {
@@ -16,6 +14,9 @@ public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Task> tasksById;
     protected final HashMap<Integer, SubTask> subTaskById;
     protected final HashMap<Integer, Epic> epicById;
+
+
+    private final Set<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
 
     protected HistoryManager historyManager;
@@ -54,16 +55,31 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int createTask(Task task) throws ManagerSaveException {
-        id++;
-        task.setId(id);
-        tasksById.put(task.getId(), task);
-        return id;
+        if (checkIntersectionOfTime(task)) {
+
+            System.out.println("На это время уже что-то запланировано, выберите другое время");
+            return id;
+
+        } else {
+            id++;
+            task.setId(id);
+            tasksById.put(task.getId(), task);
+            return id;
+        }
+
     }
 
     @Override
     public void updateTaskById(int id, Task task) throws ManagerSaveException {
-        task.setId(id);
-        tasksById.put(id, task);
+        if (checkIntersectionOfTime(task)) {
+
+            System.out.println("На это время уже что-то запланировано, выберите другое время");
+
+        } else {
+            task.setId(id);
+            tasksById.put(id, task);
+        }
+
     }
 
     @Override
@@ -152,19 +168,31 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public int createSubtask(SubTask subTask) throws ManagerSaveException {
-        id++;
-        subTask.setId(id);
-        subTaskById.put(subTask.getId(), subTask);
-        subTask.getEpic().addSubTask(subTask);
-        return id;
+        if (checkIntersectionOfTime(subTask)) {
+            System.out.println("На это время уже что-то запланировано, выберите другое время");
+            return id;
+        } else {
+            id++;
+            subTask.setId(id);
+            subTaskById.put(subTask.getId(), subTask);
+            subTask.getEpic().addSubTask(subTask);
+            return id;
+        }
+
     }
 
     @Override
     public void updateSubtask(int id, SubTask subTask) throws ManagerSaveException {
-        deleteSubtaskById(id);
-        subTask.setId(id);
-        subTaskById.put(subTask.getId(), subTask);
-        subTask.getEpic().addSubTask(subTask);
+        if (checkIntersectionOfTime(subTask)) {
+
+            System.out.println("На это время уже что-то запланировано, выберите другое время");
+        } else {
+            deleteSubtaskById(id);
+            subTask.setId(id);
+            subTaskById.put(subTask.getId(), subTask);
+            subTask.getEpic().addSubTask(subTask);
+        }
+
 
     }
 
@@ -174,6 +202,40 @@ public class InMemoryTaskManager implements TaskManager {
         subTaskById.get(id).getEpic().removeSubTask(subTaskById.get(id));
         subTaskById.remove(id);
 
+
+    }
+
+    @Override
+    public Set<Task> getPrioritizedTasks() {
+        if (!tasksById.isEmpty()) {
+            for (int i : tasksById.keySet()) {
+                if (tasksById.get(i) != null) {
+                    prioritizedTasks.add(tasksById.get(i));
+                }
+
+            }
+        }
+        if (!subTaskById.isEmpty()) {
+            for (int i : subTaskById.keySet()) {
+                if (subTaskById.get(i) != null) {
+                    prioritizedTasks.add(subTaskById.get(i));
+                }
+
+            }
+        }
+
+        return prioritizedTasks;
+    }
+
+    public boolean checkIntersectionOfTime(Task task) {
+        Set<Task> setOfAllTasks = getPrioritizedTasks();
+        if (task.getStartTime() == null) {
+            return false;
+        }
+
+        return setOfAllTasks.stream()
+                .filter(t -> task.getStartTime().isAfter(t.getStartTime()))
+                .anyMatch(t -> task.getStartTime().isBefore(t.getEndTime()));
 
     }
 

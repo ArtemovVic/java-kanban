@@ -5,9 +5,14 @@ import ru.artemov.manager.history.InMemoryHistoryManager;
 
 public class Managers {
 
-    public static TaskManager getDefault() {
+    public static InMemoryTaskManager getDefault() {
         HistoryManager historyManager = getDefaultHistory();
         return new InMemoryTaskManager(historyManager);
+    }
+
+    public static FileBackedTaskManager getFileBackedManager() {
+        HistoryManager historyManager = getDefaultHistory();
+        return new FileBackedTaskManager(historyManager);
     }
 
     public static HistoryManager getDefaultHistory() {
