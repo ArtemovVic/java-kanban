@@ -64,7 +64,7 @@ class HttpTaskServerTest {
 
     @Test
     public void testDeleteTask() throws IOException, InterruptedException {
-        Task task = new Task("task1", "desc1", Status.NEW, LocalDateTime.of(2023, 1, 1, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
+        Task task = new Task("task1", "desc1", Status.NEW,1 , LocalDateTime.of(2023, 1, 1, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
         String taskJson = gson.toJson(task);
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/tasks");
