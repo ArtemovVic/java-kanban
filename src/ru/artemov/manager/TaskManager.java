@@ -53,4 +53,6 @@ public interface TaskManager {
     void deleteSubtaskById(int id) throws ManagerSaveException;
 
     Set<Task> getPrioritizedTasks() throws ManagerSaveException;
+
+    boolean checkIntersectionOfTime(Task task);
 }
