@@ -43,7 +43,7 @@ class HttpTaskServerTest {
     }
 
     @Test
-    public void testAddTask() throws IOException, InterruptedException {
+    public void shouldAddTaskAndReturn201() throws IOException, InterruptedException {
         Task task = new Task("task1", "desc1", Status.NEW, LocalDateTime.of(2023, 1, 1, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
         String taskJson = gson.toJson(task);
 
@@ -63,7 +63,7 @@ class HttpTaskServerTest {
     }
 
     @Test
-    public void testDeleteTask() throws IOException, InterruptedException {
+    public void shouldDeleteTaskAndReturn200() throws IOException, InterruptedException {
         Task task = new Task("task1", "desc1", Status.NEW,1 , LocalDateTime.of(2023, 1, 1, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
         String taskJson = gson.toJson(task);
         HttpClient client = HttpClient.newHttpClient();
@@ -87,7 +87,7 @@ class HttpTaskServerTest {
     }
 
     @Test
-    public void testUpdateTask() throws IOException, InterruptedException {
+    public void shouldUpdateTaskAndReturn200() throws IOException, InterruptedException {
         Task task = new Task("task1", "desc1", Status.NEW, LocalDateTime.of(2023, 1, 1, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
 
         String taskJson = gson.toJson(task);
@@ -113,7 +113,7 @@ class HttpTaskServerTest {
     }
 
     @Test
-    public void testPriorityListTask() throws IOException, InterruptedException {
+    public void shouldReturnPriorityListTask() throws IOException, InterruptedException {
         Task task1 = new Task("task1", "desc1", Status.NEW, LocalDateTime.of(2023, 1, 2, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
         Task task2 = new Task("task2", "desc2", Status.NEW, LocalDateTime.of(2023, 1, 1, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
         Task task3 = new Task("task3", "desc3", Status.NEW, LocalDateTime.of(2023, 1, 3, 0, 0), Duration.of(30, ChronoUnit.MINUTES));
